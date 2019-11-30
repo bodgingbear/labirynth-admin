@@ -1,11 +1,12 @@
+const socket = io('http://localhost:1337/admin')
+
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {
     // TODO communicate with server
-    onGameStart();
-    $startBtn.remove();
+    // $startBtn.remove();
+    socket.emit('game-init')
 })
 
-let $mazeContainer = null
 
 // on setup update  I: { blueTeam: number, redTeam: number }
 function onSetupUpdate({teamA, teamB}){
@@ -23,18 +24,24 @@ function onGameStart(){
     }
     $circle = document.createElement('div');
     $circle.classList.add('circle');
-    $mazeContainer.children[teams['teamA'].currTile].appendChild($circle)
+    $mazeContainer.children[0].appendChild($circle)
     $square = document.createElement('div');
     $square.classList.add('square');
-    $mazeContainer.children[teams['teamB'].currTile].appendChild($square);
+    $mazeContainer.children[0].appendChild($square);
+
+    teams['teamA'].$entity = $circle;
+    teams['teamB'].$entity = $square;
 }
 
 // on team update I: whichTeam, { currTile: number, prevVotingStatus: success | error | null } Effect: update team location, (optionally) show feedback based prevVotingStatus
-function onTeamUpdate(whichTeam, {currTile, prevVotingStatus}){
-    teams[whichTeam].currTile = currTile;
-    teams[whichTeam].prevVotingStatus = prevVotingStatus;
+function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
+    const $mazeContainer = document.getElementById('maze-container');
+    teams[whichTeam].currTile = gameOrder;
+    teams[whichTeam].prevVotingStatus = previousOutcome;
 
-    
+    if($mazeContainer.children.length > 0){
+        $mazeContainer.children[gameOrder].appendChild(teams[whichTeam].$entity);
+    }
 
     //TODO do sth prevVotingStatus
 }
@@ -42,8 +49,8 @@ function onTeamUpdate(whichTeam, {currTile, prevVotingStatus}){
 // on game end I: winningTeam
 function onGameEnd(winningTeam){}
 
-function onGameInit(doorIndices) {
-    $mazeContainer = document.getElementById('maze-container')
+function onGameInit({game: {gameDoors: doorIndices}} ) {
+    const $mazeContainer = document.getElementById('maze-container')
     for(const doorIndex of doorIndices) {
         const $tile = createTile([doorIndex])
         $mazeContainer.appendChild($tile)
@@ -85,11 +92,14 @@ function createTile(doorIndices) {
 }
 
 const teams = {
-    teamA: {currTile: 0, prevVotingStatus: null, playerCount: 0},
-    teamB: {currTile: 0, prevVotingStatus: null, playerCount: 0}
+    teamA: {currTile: 0, prevVotingStatus: null, playerCount: 0, $entity: null},
+    teamB: {currTile: 0, prevVotingStatus: null, playerCount: 0, $entity: null}
 }
 
 
-onGameInit([4,8,4, 7,11,1, 4,4,0]);
+socket.on('game-init', onGameInit);
+socket.on('game-start', onGameStart);
+socket.on('game-update', onTeamUpdate)
+//onGameInit([4,8,4, 7,11,1, 4,4,0]);
 
 

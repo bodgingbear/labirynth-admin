@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Labyrinth</title>
+
+    <style>
+        .tile {
+            width: 99px;
+            height: 99px;
+            background: gray;
+
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            grid-template-rows: repeat(3,1fr);
+        }
+
+        .border {
+            box-sizing: border-box;
+            width: 33px;
+            height: 33px;
+            border: 0px solid black
+        }
+
+        .top {
+           border-top-width: 2px;
+        }
+        .right {
+           border-right-width: 2px;
+        }
+        .left {
+           border-left-width: 2px;
+        }
+        .bottom {
+           border-bottom-width: 2px;
+        }
+
+        .top-white {
+            border-top-color: white;
+        }
+        .left-white {
+            border-left-color: white;
+        }
+        .right-white {
+            border-right-color: white;
+        }
+        .bottom-white {
+            border-bottom-color: white;
+        }
+
+        .maze-container {
+            width: calc(3 * 99px);
+            height: calc(3 * 99px);
+            background: pink;
+
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            grid-template-rows: repeat(3,1fr);
+        }
+
+
+    </style>
+</head>
+<body>
+    <button id="start-btn">Start</button>
+    <div id="maze-container" class="maze-container"></div>
+    <script src="./script.js"></script>
+</body>
+</html>

@@ -5,10 +5,13 @@ $startBtn.addEventListener('click', () => {
     $startBtn.remove();
 })
 
+let $mazeContainer = null
+
 // on setup update  I: { blueTeam: number, redTeam: number }
 function onSetupUpdate({teamA, teamB}){
     teams['teamA'].playerCount = teamA;
     teams['teamB'].playerCount = teamB;
+
 }
 
 function onGameStart(){
@@ -18,24 +21,32 @@ function onGameStart(){
             $border.className = $border.className.replace('-white', '');
         }
     }
+    $circle = document.createElement('div');
+    $circle.classList.add('circle');
+    $mazeContainer.children[teams['teamA'].currTile].appendChild($circle)
+    $square = document.createElement('div');
+    $square.classList.add('square');
+    $mazeContainer.children[teams['teamB'].currTile].appendChild($square);
 }
 
-// on team update I: whichTeam, { currField: number, prevVotingStatus: success | error | null } Effect: update team location, (optionally) show feedback based prevVotingStatus
+// on team update I: whichTeam, { currTile: number, prevVotingStatus: success | error | null } Effect: update team location, (optionally) show feedback based prevVotingStatus
 function onTeamUpdate(whichTeam, {currTile, prevVotingStatus}){
     teams[whichTeam].currTile = currTile;
     teams[whichTeam].prevVotingStatus = prevVotingStatus;
 
-    //TODO do proper thing in prevVotingStatus
+    
+
+    //TODO do sth prevVotingStatus
 }
 
 // on game end I: winningTeam
 function onGameEnd(winningTeam){}
 
 function onGameInit(doorIndices) {
-    const mazeContainer = document.getElementById('maze-container')
+    $mazeContainer = document.getElementById('maze-container')
     for(const doorIndex of doorIndices) {
         const $tile = createTile([doorIndex])
-        mazeContainer.appendChild($tile)
+        $mazeContainer.appendChild($tile)
     }
 }
 
@@ -46,9 +57,9 @@ function createTile(doorIndices) {
         2: [{ doorIndex: 2, border: 'top' }, { doorIndex: 3, border: 'right' }],
         3: [{ doorIndex: 10, border: 'left' }],
         5: [{ doorIndex: 4, border: 'right' }],
-        8: [{ doorIndex: 5, border: 'right' }, { doorIndex: 6, border: 'bottom' }],
-        7: [{ doorIndex: 7, border: 'bottom' }],
         6: [{ doorIndex: 8, border: 'bottom' }, { doorIndex: 9, border: 'left' }],
+        7: [{ doorIndex: 7, border: 'bottom' }],
+        8: [{ doorIndex: 5, border: 'right' }, { doorIndex: 6, border: 'bottom' }],
     }
 
     const $tile = document.createElement('div')
@@ -80,3 +91,5 @@ const teams = {
 
 
 onGameInit([4,8,4, 7,11,1, 4,4,0]);
+
+

@@ -8,6 +8,7 @@
 
     <style>
         .tile {
+            position: relative;
             width: 99px;
             height: 99px;
             background: gray;
@@ -58,6 +59,25 @@
             display: grid;
             grid-template-columns: repeat(3,1fr);
             grid-template-rows: repeat(3,1fr);
+        }
+        .circle{
+            position: absolute;
+            left: 30%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 25px;
+            height: 25px;
+            background: red;
+            border-radius: 50%;
+        }
+        .square{
+            position: absolute;
+            left: 70%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 25px;
+            height: 25px;
+            background: blue;
         }
 
 

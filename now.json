@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "builds": [{ "src": "package.json", "use": "@now/static-build" }],
+  "builds": [{ "src": "*", "use": "@now/static" }],
   "name": "labyrinth-adnim",
   "alias": ["labyrinth-admin.bodgingbear.dev", "labyrinth-admin.xn--rihx924p.ws"],
   "regions": ["cdg1"]

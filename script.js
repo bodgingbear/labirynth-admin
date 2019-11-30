@@ -1,26 +1,39 @@
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {
     // TODO communicate with server
+    onGameStart();
+    $startBtn.remove();
 })
 
 // on setup update  I: { blueTeam: number, redTeam: number }
-// on game init I: [1, 3, 6, 12 ...] Effect: should draw the maze, start: {tile, loc}, end: {tile, loc}
-// on game start Effect: hide maze
-// on team update I: whichTeam, { currField: number, prevVotingStatus: success | error | null } Effect: update team location, (optionally) show feedback based prevVotingStatus
-// on game end I: winningTeam
+function onSetupUpdate({teamA, teamB}){
+    teams['teamA'].playerCount = teamA;
+    teams['teamB'].playerCount = teamB;
+}
 
-/*
-   0 1 2
-  11    3
-  10    4
-  9     5
-   8 7 6
-*/
+function onGameStart(){
+    const $mazeContainer = document.getElementById('maze-container');
+    for(const $tile of $mazeContainer.children){
+        for(const $border of $tile.children){
+            $border.className = $border.className.replace('-white', '');
+        }
+    }
+}
+
+// on team update I: whichTeam, { currField: number, prevVotingStatus: success | error | null } Effect: update team location, (optionally) show feedback based prevVotingStatus
+function onTeamUpdate(whichTeam, {currTile, prevVotingStatus}){
+    teams[whichTeam].currTile = currTile;
+    teams[whichTeam].prevVotingStatus = prevVotingStatus;
+
+    //TODO do proper thing in prevVotingStatus
+}
+
+// on game end I: winningTeam
+function onGameEnd(winningTeam){}
 
 function onGameInit(doorIndices) {
     const mazeContainer = document.getElementById('maze-container')
     for(const doorIndex of doorIndices) {
-        console.log(doorIndex)
         const $tile = createTile([doorIndex])
         mazeContainer.appendChild($tile)
     }
@@ -37,7 +50,6 @@ function createTile(doorIndices) {
         7: [{ doorIndex: 7, border: 'bottom' }],
         6: [{ doorIndex: 8, border: 'bottom' }, { doorIndex: 9, border: 'left' }],
     }
-
 
     const $tile = document.createElement('div')
     $tile.classList.add('tile')
@@ -61,4 +73,10 @@ function createTile(doorIndices) {
     return $tile
 }
 
-onGameInit([4,8,4, 7,11,1, 4,4,0])
+const teams = {
+    teamA: {currTile: 0, prevVotingStatus: null, playerCount: 0},
+    teamB: {currTile: 0, prevVotingStatus: null, playerCount: 0}
+}
+
+
+onGameInit([4,8,4, 7,11,1, 4,4,0]);

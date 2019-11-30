@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "builds": [{ "src": "package.json", "use": "@now/static-build" }],
+  "name": "konduktor",
+  "alias": ["labyrinth-admin.bodgingbear.dev", "labyrinth-admin.xn--rihx924p.ws"],
+  "regions": ["cdg1"]
+}

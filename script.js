@@ -125,6 +125,7 @@ function onGameEnd({team: {id: winningTeam}}){
 
 function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices}} ) {
     const $mazeContainer = document.getElementById('maze-container');
+    document.body.style.setProperty('--size', Math.sqrt(doorIndices.length))
     $mazeContainer.textContent = '';
     let preDoorIndex = null
     const tiles = []

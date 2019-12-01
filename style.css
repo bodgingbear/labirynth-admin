@@ -349,3 +349,7 @@ body {
 .hide-logo {
   opacity: 0;
 }
+
+#maze-container .tile:first-child div:nth-child(2) {
+  opacity: 0 !important;
+}

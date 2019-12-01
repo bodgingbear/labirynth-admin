@@ -19,15 +19,25 @@ function onGameStart(){
     const $mazeContainer = document.getElementById('maze-container');
     for(const $tile of $mazeContainer.children){
         for(const $border of $tile.children){
-            $border.className = $border.className.replace('-white', '');
+            $border.className = $border.className.replace(/\-white/g, '');
         }
     }
+
+    const $iconsContainer = document.createElement('div');
+    $iconsContainer.classList.add('iconsContainer');
+
     $circle = document.createElement('div');
+    $circle.classList.add('icon');
     $circle.classList.add('circle');
-    $mazeContainer.children[0].appendChild($circle)
+
     $square = document.createElement('div');
+    $square.classList.add('icon');
     $square.classList.add('square');
-    $mazeContainer.children[0].appendChild($square);
+
+    $iconsContainer.appendChild($circle);
+    $iconsContainer.appendChild($square);
+
+    $mazeContainer.children[0].appendChild($iconsContainer);
 
     teams['teamA'].$entity = $circle;
     teams['teamB'].$entity = $square;
@@ -49,12 +59,26 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
 // on game end I: winningTeam
 function onGameEnd(winningTeam){}
 
-function onGameInit({game: {gameDoors: doorIndices}} ) {
-    const $mazeContainer = document.getElementById('maze-container')
-    for(const doorIndex of doorIndices) {
-        const $tile = createTile([doorIndex])
-        $mazeContainer.appendChild($tile)
+function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices}} ) {
+    const $mazeContainer = document.getElementById('maze-container');
+    $mazeContainer.textContent = '';
+    let preDoorIndex = null
+    const tiles = []
+    for(const tileIndex of tilesIndices) {
+        const doorIndex = doorIndices[tileIndex]
+        const doorIndices2 = [doorIndex]
+        if(preDoorIndex !== null) {
+           doorIndices2.push(((Math.floor(preDoorIndex / 3)+ 2) % 4) * 3 + 2 - (preDoorIndex % 3))
+        }
+        const $tile = createTile(doorIndices2)
+        preDoorIndex = doorIndex
+        tiles.push({$tile, tileIndex})
     }
+
+    document.querySelector('#start-btn').style.display = 'none';
+
+    tiles.sort(({tileIndex: a}, {tileIndex: b}) => a - b)
+    tiles.forEach(({$tile}) => $mazeContainer.appendChild($tile))
 }
 
 function createTile(doorIndices) {

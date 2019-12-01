@@ -8,6 +8,8 @@ const socket = io(`${socketUrl}/admin`);
 
 const bravoSound = new Audio('bravo, this is not a wall.mp3')
 const oopsSound = new Audio('oops, this is a wall.mp3')
+const music = new Audio('music.mp3')
+music.volume = 0.3
 
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {
@@ -22,6 +24,7 @@ function onSetupUpdate({team, count}){
 }
 
 function onGameStart(){
+    music.play()
     const $mazeContainer = document.getElementById('maze-container');
     for(const $tile of $mazeContainer.children){
         for(const $border of $tile.children){
@@ -47,6 +50,8 @@ function onGameStart(){
 
     teams['teamA'].$entity = $circle;
     teams['teamB'].$entity = $square;
+
+    document.querySelector('#timer').style.setProperty('visibility', 'hidden')
 }
 
 function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
@@ -69,7 +74,6 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
         else{
             $iconsContainer.appendChild(teams[whichTeam].$entity);
         }
-
     }
 
     const teamStr = whichTeam.charAt(0).toUpperCase() + whichTeam.substr(1, 3) + ' ' + whichTeam.substr(4, 5);
@@ -123,7 +127,7 @@ function onGameEnd({team: {id: winningTeam}}){
 
 }
 
-function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices}} ) {
+function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices, time}} ) {
     const $mazeContainer = document.getElementById('maze-container');
     document.body.style.setProperty('--size', Math.sqrt(doorIndices.length))
     $mazeContainer.textContent = '';
@@ -144,6 +148,22 @@ function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices}} ) 
 
     tiles.sort(({tileIndex: a}, {tileIndex: b}) => a - b)
     tiles.forEach(({$tile}) => $mazeContainer.appendChild($tile))
+
+    document.querySelector('#timer').style.setProperty('visibility', 'visible')
+
+    let timeLeft = Math.floor(time / 1000)
+    const updateTime = () => {
+        document.querySelector('#seconds-left').innerText = ('0' + timeLeft).slice(-2)
+        timeLeft--
+
+        if(timeLeft < 0) {
+            return
+        }
+
+        setTimeout(updateTime, 1000)
+    }
+
+    updateTime()
 }
 
 function createTile(doorIndices) {

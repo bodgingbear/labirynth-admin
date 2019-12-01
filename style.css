@@ -3,6 +3,7 @@ html, body {
   height: 100%;
   margin: 0;
   background: #000;
+  font-family: Orbitron, 'Courier New', Courier, monospace;
 }
 
 body {
@@ -170,6 +171,12 @@ body {
   padding: 32px;
   box-sizing: border-box;
   flex-wrap: wrap;
+}
+
+.team {
+  font-size: 32px;
+  color: #fff;
+  margin-left: 48px;
 }
 
 @keyframes error {

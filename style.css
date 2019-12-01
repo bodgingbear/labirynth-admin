@@ -350,6 +350,6 @@ body {
   opacity: 0;
 }
 
-/* #maze-container .tile:first-child div:nth-child(2) {
+#maze-container .tile:first-child > div:nth-child(2).border::after {
   opacity: 0 !important;
-} */
+}

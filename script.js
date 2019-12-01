@@ -2,13 +2,9 @@ const socket = io('http://localhost:1337/admin')
 
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {
-    // TODO communicate with server
-    // $startBtn.remove();
     socket.emit('game-init')
 })
 
-
-// on setup update  I: { blueTeam: number, redTeam: number }
 function onSetupUpdate({teamA, teamB}){
     teams['teamA'].playerCount = teamA;
     teams['teamB'].playerCount = teamB;
@@ -43,7 +39,6 @@ function onGameStart(){
     teams['teamB'].$entity = $square;
 }
 
-// on team update I: whichTeam, { currTile: number, prevVotingStatus: success | error | null } Effect: update team location, (optionally) show feedback based prevVotingStatus
 function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
     const $mazeContainer = document.getElementById('maze-container');
     teams[whichTeam].currTile = gameOrder;
@@ -61,7 +56,13 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
         $iconsContainer.appendChild(teams[whichTeam].$entity);
     }
 
-    //TODO do sth prevVotingStatus
+    if(previousOutcome === 'error'){
+        teams[whichTeam].$entity.classList.add('error');
+    }
+
+    if(previousOutcome === 'success'){
+        teams[whichTeam].$entity.classList.remove('error');
+    }
 }
 
 // on game end I: winningTeam
@@ -131,7 +132,4 @@ const teams = {
 
 socket.on('game-init', onGameInit);
 socket.on('game-start', onGameStart);
-socket.on('game-update', onTeamUpdate)
-//onGameInit([4,8,4, 7,11,1, 4,4,0]);
-
-
+socket.on('game-update', onTeamUpdate);

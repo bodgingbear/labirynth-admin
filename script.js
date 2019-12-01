@@ -11,6 +11,9 @@ const oopsSound = new Audio('oops, this is a wall.mp3')
 const music = new Audio('music.mp3')
 music.volume = 0.3
 
+const celebrateSound = new Audio('koolSuccess.mp3')
+celebrateSound.volume = 0.7
+
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {
     bravoSound.play()
@@ -124,7 +127,8 @@ function onGameEnd({team: {id: winningTeam}}){
     $winningTextCont.appendChild($chickenDinner);
     document.body.prepend($winningTextCont);
 
-
+    music.pause()
+    celebrateSound.play()
 }
 
 function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices, time}} ) {

@@ -244,3 +244,21 @@ body {
     color: #f00;
   }
 }
+
+.subs {
+  position: absolute;
+  width: 50vw;
+  bottom: 10vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.sub {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 24px;
+  padding: 8px;
+}

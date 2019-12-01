@@ -58,14 +58,18 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
         $iconsContainer.appendChild(teams[whichTeam].$entity);
     }
 
+    const teamStr = whichTeam.charAt(0).toUpperCase() + whichTeam.substr(1, 3) + ' ' + whichTeam.substr(4, 5);
+
     if(previousOutcome === 'error'){
         oopsSound.play()
         teams[whichTeam].$entity.classList.add('error');
+        addSubs(`${teamStr}: Oops, this is a wall.`)
     }
 
     if(previousOutcome === 'success'){
         bravoSound.play()
         teams[whichTeam].$entity.classList.remove('error');
+        addSubs(`${teamStr}: Bravo, this is not a wall!`)
     }
 }
 
@@ -139,3 +143,14 @@ socket.on('game-init', onGameInit);
 socket.on('game-start', onGameStart);
 socket.on('game-update', onTeamUpdate)
 socket.on('squad-update', onSetupUpdate)
+
+function addSubs(sub) {
+    const $sub = document.createElement('div')
+    $sub.classList.add('sub')
+    $sub.innerText = sub
+
+    document.querySelector('#subs').appendChild($sub)
+    setTimeout(() => {
+        $sub.remove()
+    }, 4000)
+}

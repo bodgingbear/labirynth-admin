@@ -343,6 +343,7 @@ body {
   transition: opacity 0.2s ease-in-out;
   image-rendering: pixelated;
   object-fit: cover;
+  pointer-events: none;
 }
 
 .hide-logo {

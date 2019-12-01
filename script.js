@@ -50,10 +50,10 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
     teams[whichTeam].prevVotingStatus = previousOutcome;
 
     if($mazeContainer.children.length > 0){
-        const $iconsContainer = $mazeContainer.children[gameOrder].querySelector('.iconsContainer');
+        let $iconsContainer = $mazeContainer.children[gameOrder].querySelector('.iconsContainer');
 
-        if (!$iconsContainer) {
-            const $iconsContainer = document.createElement('div');
+        if ($iconsContainer === null) {
+            $iconsContainer = document.createElement('div');
             $iconsContainer.classList.add('iconsContainer');
             $mazeContainer.children[gameOrder].appendChild($iconsContainer);
         }

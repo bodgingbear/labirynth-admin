@@ -3,6 +3,7 @@ html, body {
   height: 100%;
   margin: 0;
   background: #000;
+  font-family: Orbitron, 'Courier New', Courier, monospace;
 }
 
 body {
@@ -191,6 +192,12 @@ body {
   left: 50%;
   top: 20%;
   transform: translate(-50%, -50%);
+}
+
+.team {
+  font-size: 32px;
+  color: #fff;
+  margin-left: 48px;
 }
 
 @keyframes error {

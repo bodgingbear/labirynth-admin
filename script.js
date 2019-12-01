@@ -1,4 +1,4 @@
-const socket = io('http://localhost:1337/admin')
+const socket = io('http://172.16.30.17:1337/admin')
 
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {

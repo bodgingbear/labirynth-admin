@@ -50,7 +50,15 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
     teams[whichTeam].prevVotingStatus = previousOutcome;
 
     if($mazeContainer.children.length > 0){
-        $mazeContainer.children[gameOrder].appendChild(teams[whichTeam].$entity);
+        const $iconsContainer = $mazeContainer.children[gameOrder].querySelector('.iconsContainer');
+
+        if (!$iconsContainer) {
+            const $iconsContainer = document.createElement('div');
+            $iconsContainer.classList.add('iconsContainer');
+            $mazeContainer.children[gameOrder].appendChild($iconsContainer);
+        }
+
+        $iconsContainer.appendChild(teams[whichTeam].$entity);
     }
 
     //TODO do sth prevVotingStatus

@@ -11,6 +11,8 @@ const oopsSound = new Audio('oops, this is a wall.mp3')
 
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {
+    bravoSound.play()
+    bravoSound.pause()
     socket.emit('game-init')
 })
 

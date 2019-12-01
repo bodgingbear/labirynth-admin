@@ -15,6 +15,8 @@ const oopsSound = new Audio('oops, this is a wall.mp3')
 const music = new Audio('music.mp3')
 music.volume = 0.3
 
+const celebrateSound = new Audio('koolSuccess.mp3')
+celebrateSound.volume = 0.8
 const $confetti = document.querySelector('#confetti');
 const confettiSettings = {
     target: 'confetti',
@@ -137,6 +139,11 @@ function onGameEnd({team: {id: winningTeam}}){
     $winningTextCont.appendChild($winningTextTeam);
     $winningTextCont.appendChild($chickenDinner);
     document.body.prepend($winningTextCont);
+
+    music.pause()
+    celebrateSound.play()
+
+    document.querySelector('#start-screen').style.setProperty('visibility', 'hidden')
 }
 
 function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices, time}} ) {

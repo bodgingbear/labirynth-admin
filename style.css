@@ -173,6 +173,27 @@ body {
   flex-wrap: wrap;
 }
 
+.hidden{
+  display: none;
+}
+
+.teamText{
+  font-size: 50px;
+  text-align: center;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.textCont{
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+}
+
 .team {
   font-size: 32px;
   color: #fff;

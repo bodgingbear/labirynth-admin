@@ -1,4 +1,10 @@
-const socket = io('http://localhost:1337/admin')
+let socketUrl = 'http://localhost:1337';
+
+if (!(/(^\d+\.)|(^localhost$)/.test(window.location.hostname))) {
+    socketUrl = 'https://bb-pgg-labyrinth.herokuapp.com';
+}
+
+const socket = io(`${socketUrl}/admin`);
 
 const bravoSound = new Audio('bravo, this is not a wall.mp3')
 const oopsSound = new Audio('oops, this is a wall.mp3')
@@ -55,7 +61,13 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
             $mazeContainer.children[gameOrder].appendChild($iconsContainer);
         }
 
-        $iconsContainer.appendChild(teams[whichTeam].$entity);
+        if(whichTeam === 'teamA'){
+            $iconsContainer.prepend(teams[whichTeam].$entity);
+        }
+        else{
+            $iconsContainer.appendChild(teams[whichTeam].$entity);
+        }
+
     }
 
     const teamStr = whichTeam.charAt(0).toUpperCase() + whichTeam.substr(1, 3) + ' ' + whichTeam.substr(4, 5);
@@ -73,8 +85,40 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
     }
 }
 
-// on game end I: winningTeam
-function onGameEnd(winningTeam){
+function addSubs(sub) {
+    const $sub = document.createElement('div')
+    $sub.classList.add('sub')
+    $sub.innerText = sub
+
+    const $subs = document.querySelector('#subs')
+    $subs.appendChild($sub)
+
+    while($subs.children.length > 3) {
+        $subs.children[0].remove()
+    }
+
+    setTimeout(() => {
+        $sub.remove()
+    }, 8000)
+}
+
+function onGameEnd({team: {id: winningTeam}}){
+    document.querySelector('.cont').classList.add('hidden');
+    const $winningTextCont = document.createElement('div');
+    const $winningTextTeam = document.createElement('div');
+    const $chickenDinner = document.createElement('div');
+    $chickenDinner.textContent = 'Winner, winner chicken dinner!';
+    $winningTextTeam.classList.add('teamText');
+    $chickenDinner.classList.add('teamText');
+    $winningTextCont.classList.add('textCont');
+    const teamStr = winningTeam.substr(0, 4) + ' ' + winningTeam.substr(4, 5);
+    $winningTextTeam.textContent = teamStr.toUpperCase();
+    $winningTextTeam.style.color = winningTeam === 'teamA' ? '#ff00ff' : '#fff000';
+    $winningTextCont.appendChild($winningTextTeam);
+    $winningTextCont.appendChild($chickenDinner);
+    document.body.prepend($winningTextCont);
+
+
 }
 
 function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices}} ) {
@@ -143,14 +187,4 @@ socket.on('game-init', onGameInit);
 socket.on('game-start', onGameStart);
 socket.on('game-update', onTeamUpdate)
 socket.on('squad-update', onSetupUpdate)
-
-function addSubs(sub) {
-    const $sub = document.createElement('div')
-    $sub.classList.add('sub')
-    $sub.innerText = sub
-
-    document.querySelector('#subs').appendChild($sub)
-    setTimeout(() => {
-        $sub.remove()
-    }, 4000)
-}
+socket.on('game-end', onGameEnd);

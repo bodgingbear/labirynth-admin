@@ -65,7 +65,8 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
 }
 
 // on game end I: winningTeam
-function onGameEnd(winningTeam){}
+function onGameEnd(winningTeam){
+}
 
 function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices}} ) {
     const $mazeContainer = document.getElementById('maze-container');

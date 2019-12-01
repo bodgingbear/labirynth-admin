@@ -9,10 +9,9 @@ $startBtn.addEventListener('click', () => {
 
 
 // on setup update  I: { blueTeam: number, redTeam: number }
-function onSetupUpdate({teamA, teamB}){
-    teams['teamA'].playerCount = teamA;
-    teams['teamB'].playerCount = teamB;
-
+function onSetupUpdate({team, count}){
+    teams[team].playerCount = count;
+    document.querySelector(`#${team}-count`).innerText = count
 }
 
 function onGameStart(){
@@ -124,6 +123,7 @@ const teams = {
 socket.on('game-init', onGameInit);
 socket.on('game-start', onGameStart);
 socket.on('game-update', onTeamUpdate)
+socket.on('squad-update', onSetupUpdate)
 //onGameInit([4,8,4, 7,11,1, 4,4,0]);
 
 

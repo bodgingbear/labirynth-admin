@@ -1,5 +1,8 @@
 const socket = io('http://localhost:1337/admin')
 
+const bravoSound = new Audio('bravo, this is not a wall.mp3')
+const oopsSound = new Audio('oops, this is a wall.mp3')
+
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {
     socket.emit('game-init')
@@ -56,10 +59,12 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
     }
 
     if(previousOutcome === 'error'){
+        oopsSound.play()
         teams[whichTeam].$entity.classList.add('error');
     }
 
     if(previousOutcome === 'success'){
+        bravoSound.play()
         teams[whichTeam].$entity.classList.remove('error');
     }
 }

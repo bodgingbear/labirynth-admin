@@ -317,6 +317,11 @@ body {
   padding: 8px;
 }
 
+#confetti {
+  position: absolute;
+  pointer-events: none;
+}
+
 .time {
   position: absolute;
   top: 10%;

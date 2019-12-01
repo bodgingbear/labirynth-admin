@@ -12,7 +12,14 @@ const music = new Audio('music.mp3')
 music.volume = 0.3
 
 const celebrateSound = new Audio('koolSuccess.mp3')
-celebrateSound.volume = 0.7
+celebrateSound.volume = 0.8
+const $confetti = document.querySelector('#confetti');
+const confettiSettings = {
+    target: 'confetti',
+    width: document.innerWidth,
+    height: document.innerHeight,
+};
+const confetti = new ConfettiGenerator(confettiSettings);
 
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {
@@ -112,6 +119,8 @@ function addSubs(sub) {
 }
 
 function onGameEnd({team: {id: winningTeam}}){
+    confetti.render();
+
     document.querySelector('.cont').classList.add('hidden');
     const $winningTextCont = document.createElement('div');
     const $winningTextTeam = document.createElement('div');
@@ -208,7 +217,6 @@ const teams = {
     teamA: {currTile: 0, prevVotingStatus: null, playerCount: 0, $entity: null},
     teamB: {currTile: 0, prevVotingStatus: null, playerCount: 0, $entity: null}
 }
-
 
 socket.on('game-init', onGameInit);
 socket.on('game-start', onGameStart);

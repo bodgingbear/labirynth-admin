@@ -331,3 +331,20 @@ body {
   background: rgba(0, 0, 0, 0.5);
   visibility: hidden;
 }
+
+.logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+  image-rendering: pixelated;
+  object-fit: cover;
+}
+
+.hide-logo {
+  opacity: 0;
+}

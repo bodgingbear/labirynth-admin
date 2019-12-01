@@ -1,3 +1,7 @@
+setTimeout(() => {
+    document.querySelector('.logo').classList.add('hide-logo');
+}, 2100)
+
 let socketUrl = 'http://localhost:1337';
 
 if (!(/(^\d+\.)|(^localhost$)/.test(window.location.hostname))) {

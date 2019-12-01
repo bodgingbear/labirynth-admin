@@ -192,12 +192,44 @@ body {
   left: 50%;
   top: 20%;
   transform: translate(-50%, -50%);
+  color: #fff;
 }
 
 .team {
   font-size: 32px;
   color: #fff;
   margin-left: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.team__header {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.team-a::before, .team-b::before {
+  content: '';
+  display: inline-block;
+  border-radius: 2px;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 1rem;
+}
+
+.team-a::before {
+  color: #ff00ff;
+  border-radius: 50%;
+}
+
+.team-b::before {
+  color: #fff000;
+}
+
+#teamA-count, #teamB-count {
+  margin-left: 0.5rem;
 }
 
 @keyframes error {

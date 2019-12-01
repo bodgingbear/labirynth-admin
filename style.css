@@ -321,3 +321,13 @@ body {
   position: absolute;
   pointer-events: none;
 }
+
+.time {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  font-size: 48px;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+}

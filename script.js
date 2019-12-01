@@ -1,4 +1,10 @@
-const socket = io('http://localhost:1337/admin')
+let socketUrl = 'http://localhost:1337';
+
+if (!(/(^\d+\.)|(^localhost$)/.test(window.location.hostname))) {
+    socketUrl = 'https://bb-pgg-labyrinth.herokuapp.com';
+}
+
+const socket = io(`${socketUrl}/admin`);
 
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {

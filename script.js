@@ -9,6 +9,14 @@ const socket = io(`${socketUrl}/admin`);
 const bravoSound = new Audio('bravo, this is not a wall.mp3')
 const oopsSound = new Audio('oops, this is a wall.mp3')
 
+const $confetti = document.querySelector('#confetti');
+const confettiSettings = {
+    target: 'confetti',
+    width: document.innerWidth,
+    height: document.innerHeight,
+};
+const confetti = new ConfettiGenerator(confettiSettings);
+
 const $startBtn = document.getElementById('start-btn')
 $startBtn.addEventListener('click', () => {
     bravoSound.play()
@@ -105,6 +113,8 @@ function addSubs(sub) {
 }
 
 function onGameEnd({team: {id: winningTeam}}){
+    confetti.render();
+
     document.querySelector('.cont').classList.add('hidden');
     const $winningTextCont = document.createElement('div');
     const $winningTextTeam = document.createElement('div');
@@ -119,8 +129,6 @@ function onGameEnd({team: {id: winningTeam}}){
     $winningTextCont.appendChild($winningTextTeam);
     $winningTextCont.appendChild($chickenDinner);
     document.body.prepend($winningTextCont);
-
-
 }
 
 function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices}} ) {
@@ -184,7 +192,6 @@ const teams = {
     teamA: {currTile: 0, prevVotingStatus: null, playerCount: 0, $entity: null},
     teamB: {currTile: 0, prevVotingStatus: null, playerCount: 0, $entity: null}
 }
-
 
 socket.on('game-init', onGameInit);
 socket.on('game-start', onGameStart);

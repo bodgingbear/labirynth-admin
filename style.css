@@ -316,3 +316,8 @@ body {
   font-size: 24px;
   padding: 8px;
 }
+
+#confetti {
+  position: absolute;
+  pointer-events: none;
+}

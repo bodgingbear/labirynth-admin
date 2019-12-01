@@ -55,7 +55,13 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
             $mazeContainer.children[gameOrder].appendChild($iconsContainer);
         }
 
-        $iconsContainer.appendChild(teams[whichTeam].$entity);
+        if(whichTeam === 'teamA'){
+            $iconsContainer.prepend(teams[whichTeam].$entity);
+        }
+        else{
+            $iconsContainer.appendChild(teams[whichTeam].$entity);
+        }
+            
     }
 
     if(previousOutcome === 'error'){
@@ -69,7 +75,6 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
     }
 }
 
-// on game end I: winningTeam
 function onGameEnd({team: {id: winningTeam}}){
     document.querySelector('.cont').classList.add('hidden');
     const $winningTextCont = document.createElement('div');

@@ -65,7 +65,23 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
 }
 
 // on game end I: winningTeam
-function onGameEnd(winningTeam){
+function onGameEnd({team: {id: winningTeam}}){
+    document.querySelector('.cont').classList.add('hidden');
+    const $winningTextCont = document.createElement('div');
+    const $winningTextTeam = document.createElement('div');
+    const $chickenDinner = document.createElement('div');
+    $chickenDinner.textContent = 'Winner, winner chicken dinner!';
+    $winningTextTeam.classList.add('teamText');
+    $chickenDinner.classList.add('teamText');
+    $winningTextCont.classList.add('textCont');
+    const teamStr = winningTeam.substr(0, 4) + ' ' + winningTeam.substr(4, 5);
+    $winningTextTeam.textContent = teamStr.toUpperCase();
+    $winningTextTeam.style.color = winningTeam === 'teamA' ? '#ff00ff' : '#fff000';
+    $winningTextCont.appendChild($winningTextTeam);
+    $winningTextCont.appendChild($chickenDinner);
+    document.body.prepend($winningTextCont);
+
+
 }
 
 function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices}} ) {
@@ -132,5 +148,6 @@ const teams = {
 
 socket.on('game-init', onGameInit);
 socket.on('game-start', onGameStart);
-socket.on('game-update', onTeamUpdate)
-socket.on('squad-update', onSetupUpdate)
+socket.on('game-update', onTeamUpdate);
+socket.on('squad-update', onSetupUpdate);
+socket.on('game-end', onGameEnd);

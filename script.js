@@ -67,18 +67,39 @@ function onTeamUpdate({team: { id: whichTeam }, previousOutcome, gameOrder}){
         else{
             $iconsContainer.appendChild(teams[whichTeam].$entity);
         }
-            
+
     }
+
+    const teamStr = whichTeam.charAt(0).toUpperCase() + whichTeam.substr(1, 3) + ' ' + whichTeam.substr(4, 5);
 
     if(previousOutcome === 'error'){
         oopsSound.play()
         teams[whichTeam].$entity.classList.add('error');
+        addSubs(`${teamStr}: Oops, this is a wall.`)
     }
 
     if(previousOutcome === 'success'){
         bravoSound.play()
         teams[whichTeam].$entity.classList.remove('error');
+        addSubs(`${teamStr}: Bravo, this is not a wall!`)
     }
+}
+
+function addSubs(sub) {
+    const $sub = document.createElement('div')
+    $sub.classList.add('sub')
+    $sub.innerText = sub
+
+    const $subs = document.querySelector('#subs')
+    $subs.appendChild($sub)
+
+    while($subs.children.length > 3) {
+        $subs.children[0].remove()
+    }
+
+    setTimeout(() => {
+        $sub.remove()
+    }, 8000)
 }
 
 function onGameEnd({team: {id: winningTeam}}){
@@ -164,6 +185,6 @@ const teams = {
 
 socket.on('game-init', onGameInit);
 socket.on('game-start', onGameStart);
-socket.on('game-update', onTeamUpdate);
-socket.on('squad-update', onSetupUpdate);
+socket.on('game-update', onTeamUpdate)
+socket.on('squad-update', onSetupUpdate)
 socket.on('game-end', onGameEnd);

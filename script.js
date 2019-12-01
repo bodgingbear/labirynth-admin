@@ -138,6 +138,8 @@ function onGameEnd({team: {id: winningTeam}}){
 
     music.pause()
     celebrateSound.play()
+
+    document.querySelector('#start-screen').style.setProperty('visibility', 'hidden')
 }
 
 function onGameInit({game: {gameDoors: doorIndices, gameOrder: tilesIndices, time}} ) {
